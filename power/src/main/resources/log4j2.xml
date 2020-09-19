@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- moniterInterval重新配置的间隔时间 -->
+<Configuration status="warn" monitorInterval="600" strict="true">
+	<properties>
+		<property name="path">D:/log</property>
+		<property name="charset">UTF-8</property>
+		<property name="pattern">%-d{yyyy-MM-dd HH:mm:ss.SSS} %-5level  %p %X{ip} %t %C %X{requestId} %M %m %n</property>
+	</properties>
+	<Appenders>
+		<Console name="console" target="SYSTEM_OUT">
+			<PatternLayout pattern="${pattern}" charset="${charset}"/>
+		</Console>
+		<RollingFile name="RollingFileInfo" fileName="${path}/info.log" filePattern="${path}/%d{yyyy-MM-dd HH-mm}===info=%i.log">
+			<ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+			<PatternLayout pattern="${pattern}"/>
+			<Policies>
+	<!--与filePattern有关  interval间隔时间单位取决于 HH-mm结尾的是分钟还是小时 -->
+				<TimeBasedTriggeringPolicy  interval="10" modulate="true"/>
+				<SizeBasedTriggeringPolicy size="50MB"/>
+			</Policies>
+			<DefaultRolloverStrategy  max="30"/>
+		</RollingFile>
+		<RollingFile name="RollingFileError" fileName="${path}/error.log" filePattern="${path}/%d{yyyy-MM-dd HH-mm}===error=%i.log">
+			<ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+			<PatternLayout pattern="${pattern}"/>
+			<Policies>
+	<!--与filePattern有关  interval间隔时间单位取决于 HH-mm结尾的是分钟还是小时 -->
+				<TimeBasedTriggeringPolicy  interval="10" modulate="true"/>
+				<SizeBasedTriggeringPolicy size="50MB"/>
+			</Policies>
+			<DefaultRolloverStrategy  max="30"/>
+		</RollingFile>
+		<RollingFile name="RollingFileWarn" fileName="${path}/warn.log" filePattern="${path}/%d{yyyy-MM-dd HH-mm}===warn=%i.log">
+			<ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
+			<PatternLayout pattern="${pattern}"/>
+			<Policies>
+	<!--与filePattern有关  interval间隔时间单位取决于 HH-mm结尾的是分钟还是小时 -->
+				<TimeBasedTriggeringPolicy  interval="10" modulate="true"/>
+				<SizeBasedTriggeringPolicy size="50MB"/>
+			</Policies>
+			<DefaultRolloverStrategy  max="30"/>
+		</RollingFile>
+	</Appenders>
+	<loggers>
+		<logger name="org.springframework" level="INFO"/>
+		<logger name="com.zaxxer.hikari.pool.HikariPool" level="OFF"/>
+		<logger name="org.mybatis" level="INFO"/>
+		<root level="all">
+			<appender-ref ref="console"/>
+			<appender-ref ref="RollingFileInfo"/>
+			<appender-ref ref="RollingFileWarn"/>
+			<appender-ref ref="RollingFileError"/>
+		</root>
+	</loggers>
+</Configuration>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.xiaoer.manage.mappers.usermapper">
+    <!-注册用户的方法-->
+    <!--Integer addnew(user user)-->
+    <insert id="addnew">
+        INSERT INTO user(
+            username,password
+        )VALUES(
+            #{username},#{password}
+        )
+    </insert>
+</mapper>
